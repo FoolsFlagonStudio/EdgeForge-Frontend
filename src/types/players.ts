@@ -31,10 +31,11 @@ export interface PlayerProfileResponse {
     avg_line: number;
     lines: Array<{
       line: number;
+      display: string;
       comparator: string;
       total: number;
       wins: number;
-      win_rate: number;
+      win_rate: number | string;
     }>;
   }>;
 }

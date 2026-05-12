@@ -14,9 +14,13 @@ export default function ArticleDetail() {
   const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setLoggedIn(!!data.session));
+    supabase.auth.getSession().then(({ data }) => {
+      setLoggedIn(!!data.session);
+      setCurrentUserId(data.session?.user.id ?? null);
+    });
   }, []);
 
   const { data: article, isLoading } = useQuery<Article>({
@@ -87,7 +91,7 @@ export default function ArticleDetail() {
               {article.author.display_name ?? "Unknown"}
             </span>
             <Text type="secondary">{pubDate}</Text>
-            {loggedIn && (
+            {loggedIn && currentUserId !== article.author.id && (
               <Button size="small" onClick={handleFollow}>
                 {isFollowing ? "Following" : "Follow"}
               </Button>

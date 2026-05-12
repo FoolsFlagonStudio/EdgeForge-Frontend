@@ -1,5 +1,6 @@
 import { Spin, Typography } from "antd";
 import type { SportAnalytics } from "../../types/games";
+import { formatMarketName } from "../../lib/markets";
 
 const { Title } = Typography;
 
@@ -73,7 +74,7 @@ export default function SportStats({ analytics, loading }: Props) {
                 }}
               >
                 <div style={{ fontSize: 12, color: "var(--muted-text)", marginBottom: 4 }}>
-                  {m.market}
+                  {formatMarketName(m.market)}
                 </div>
                 <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)" }}>
                   {pct(m.win_rate)}

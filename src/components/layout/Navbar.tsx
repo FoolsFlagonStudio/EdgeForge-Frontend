@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { Avatar, Button, Dropdown } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { supabase } from "../../lib/supabase";
+import { apiFetch } from "../../lib/api";
+import { API_ROUTES } from "../../lib/routes";
+import type { MeResponse } from "../../types/users";
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [me, setMe] = useState<MeResponse | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,10 +24,25 @@ export default function Navbar() {
     return () => listener.subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (loggedIn) {
+      apiFetch<MeResponse>(API_ROUTES.me).then(setMe).catch(() => {});
+    } else {
+      setMe(null);
+    }
+  }, [loggedIn]);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
   };
+
+  const dropdownItems = [
+    { key: "/profile", label: <Link to="/profile">Profile</Link> },
+    { key: "/settings", label: <Link to="/settings">Settings</Link> },
+    { type: "divider" as const },
+    { key: "logout", label: "Logout", danger: true, onClick: handleLogout },
+  ];
 
   return (
     <nav className="navbar">
@@ -49,20 +69,28 @@ export default function Navbar() {
       </div>
 
       <div className="navbar-actions">
+        {loggedIn && (
+          <NavLink to="/analytics" className={({ isActive }) => (isActive ? "active" : "")}>
+            Analytics
+          </NavLink>
+        )}
         {loggedIn ? (
-          <>
-            <Link to="/dashboard">
-              <Button type="text" style={{ color: "var(--text-secondary)" }}>
-                Dashboard
-              </Button>
-            </Link>
-            <Button
-              type="primary"
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
-          </>
+          <Dropdown
+            menu={{ items: dropdownItems }}
+            trigger={["click"]}
+            placement="bottomRight"
+          >
+            <Avatar
+              size={34}
+              src={me?.avatar_url ?? undefined}
+              icon={<UserOutlined />}
+              style={{
+                cursor: "pointer",
+                background: "var(--bg-elevated)",
+                border: "1px solid var(--border-subtle)",
+              }}
+            />
+          </Dropdown>
         ) : (
           <>
             <Link to="/register">

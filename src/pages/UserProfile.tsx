@@ -14,10 +14,14 @@ export default function UserProfile() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [following, setFollowing] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setLoggedIn(!!data.session));
+    supabase.auth.getSession().then(({ data }) => {
+      setLoggedIn(!!data.session);
+      setCurrentUserId(data.session?.user.id ?? null);
+    });
   }, []);
 
   const { data: profile, isLoading } = useQuery<UserProfileType>({
@@ -98,7 +102,7 @@ export default function UserProfile() {
             <Title level={2} style={{ margin: 0 }}>
               {profile.display_name ?? "Anonymous"}
             </Title>
-            {loggedIn && (
+            {loggedIn && currentUserId !== profile.id && (
               <Button size="small" onClick={handleFollow}>
                 {following ? "Following" : "Follow"}
               </Button>
@@ -129,10 +133,10 @@ export default function UserProfile() {
           <div className="profile-stat-value">{profile.followers_count}</div>
           <div className="profile-stat-label">Followers</div>
         </div>
-        {profile.specialties.length > 0 && (
+        {(profile.specialties ?? []).length > 0 && (
           <div className="profile-stat" style={{ textAlign: "left" }}>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-              {profile.specialties.map((s) => (
+              {(profile.specialties ?? []).map((s) => (
                 <Tag key={s} style={{ textTransform: "uppercase" }}>{s}</Tag>
               ))}
             </div>

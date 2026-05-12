@@ -5,7 +5,8 @@ interface Props {
   article: ArticleListItem;
 }
 
-function stripHtml(html: string): string {
+function stripHtml(html: string | null | undefined): string {
+  if (!html) return "";
   return html.replace(/<[^>]+>/g, "");
 }
 

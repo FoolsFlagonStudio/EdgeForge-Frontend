@@ -1,27 +1,32 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
-import { Layout, Menu, Button, Drawer } from "antd";
+import { Layout, Menu, Avatar, Dropdown, Button, Drawer } from "antd";
 import {
-  HomeOutlined,
   BarChartOutlined,
   MenuOutlined,
-  LogoutOutlined,
-  DollarOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabase";
+import { apiFetch } from "../../lib/api";
+import { API_ROUTES } from "../../lib/routes";
+import type { MeResponse } from "../../types/users";
 
 const { Sider, Content } = Layout;
 
 const navItems = [
-  { key: "/dashboard", icon: <HomeOutlined />, label: "Dashboard" },
   { key: "/analytics", icon: <BarChartOutlined />, label: "Analytics" },
-  { key: "/billing", icon: <DollarOutlined />, label: "Billing" },
 ];
 
 export default function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { data: me } = useQuery<MeResponse>({
+    queryKey: ["me"],
+    queryFn: () => apiFetch(API_ROUTES.me),
+  });
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -34,20 +39,67 @@ export default function AppLayout() {
     label: <Link to={item.key}>{item.label}</Link>,
   }));
 
-  const logoutItem = {
-    key: "logout",
-    icon: <LogoutOutlined />,
-    label: "Logout",
-    danger: true,
-    onClick: handleLogout,
-  };
+  const avatarDropdownItems = [
+    { key: "/profile", label: <Link to="/profile">Profile</Link> },
+    { key: "/settings", label: <Link to="/settings">Settings</Link> },
+    { type: "divider" as const },
+    {
+      key: "logout",
+      label: "Logout",
+      danger: true,
+      onClick: handleLogout,
+    },
+  ];
+
+  const AvatarBlock = (
+    <Dropdown
+      menu={{ items: avatarDropdownItems }}
+      trigger={["click"]}
+      placement="topLeft"
+    >
+      <div
+        style={{
+          padding: "12px 16px",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          borderTop: "1px solid var(--border-subtle)",
+        }}
+      >
+        <Avatar
+          size={34}
+          src={me?.avatar_url ?? undefined}
+          icon={<UserOutlined />}
+          style={{
+            background: "var(--bg-elevated)",
+            border: "1px solid var(--border-subtle)",
+            flexShrink: 0,
+          }}
+        />
+        {me?.display_name && (
+          <span
+            style={{
+              color: "var(--text-secondary)",
+              fontSize: 13,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {me.display_name}
+          </span>
+        )}
+      </div>
+    </Dropdown>
+  );
 
   const SideMenu = (
     <Menu
       theme="dark"
       mode="inline"
       selectedKeys={[location.pathname]}
-      items={[...menuItems, logoutItem]}
+      items={menuItems}
       style={{ flex: 1, border: "none" }}
     />
   );
@@ -77,6 +129,7 @@ export default function AppLayout() {
           EdgeForge
         </Link>
         {SideMenu}
+        {AvatarBlock}
       </Sider>
 
       <Layout>
@@ -115,9 +168,10 @@ export default function AppLayout() {
           onClose={() => setDrawerOpen(false)}
           placement="left"
           width={220}
-          styles={{ body: { padding: 0, background: "var(--bg-nav)" } }}
+          styles={{ body: { padding: 0, background: "var(--bg-nav)", display: "flex", flexDirection: "column" } }}
         >
           {SideMenu}
+          {AvatarBlock}
         </Drawer>
 
         <Content className="app-content">

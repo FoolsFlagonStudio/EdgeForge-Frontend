@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PublicLayout from "./components/layout/PublicLayout";
-import AppLayout from "./components/layout/AppLayout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 import Home from "./pages/Home";
@@ -23,8 +22,9 @@ import Subscribe from "./pages/Subscribe";
 import Upgrade from "./pages/Upgrade";
 import Billing from "./pages/Billing";
 
-import Dashboard from "./pages/Dashboard";
 import Analytics from "./pages/Analytics";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
@@ -67,6 +67,10 @@ export default function App() {
           <Route path="/subscribe" element={<Subscribe />} />
           <Route path="/upgrade" element={<Upgrade />} />
           <Route path="/billing" element={<Billing />} />
+          <Route path="/dashboard" element={<Navigate to="/analytics" replace />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
 
         {/* Subscription-gated, public layout */}
@@ -78,18 +82,6 @@ export default function App() {
           }
         >
           <Route path="/articles/new" element={<ArticleNew />} />
-        </Route>
-
-        {/* Auth-only, app layout */}
-        <Route
-          element={
-            <ProtectedRoute requireSubscription={false}>
-              <AppLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/analytics" element={<Analytics />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

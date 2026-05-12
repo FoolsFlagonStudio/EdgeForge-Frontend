@@ -66,6 +66,13 @@ export interface GamePick {
     trust_score: number;
   };
   pick_type: "straight" | "moneyline";
+  pick_detail: {
+    player_name?: string | null;
+    market?: string | null;
+    line?: number | null;
+    comparator?: string | null;
+    pick_team?: string | null;
+  };
   reasoning: string | null;
   result: "win" | "loss" | "push" | null;
   created_at: string;

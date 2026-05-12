@@ -7,6 +7,7 @@ const { Title, Text } = Typography;
 
 export default function Register() {
   const navigate = useNavigate();
+  const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,13 @@ export default function Register() {
   const handleRegister = async () => {
     if (!email || !password) return;
     setLoading(true);
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { display_name: displayName.trim() || null },
+      },
+    });
     if (error) {
       void message.error(error.message);
     } else {
@@ -30,6 +37,12 @@ export default function Register() {
         Create Account
       </Title>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <Input
+          placeholder="Display Name"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+          size="large"
+        />
         <Input
           placeholder="Email"
           value={email}

@@ -21,7 +21,7 @@ export interface ArticleListItem {
   id: string;
   title: string;
   subtitle: string | null;
-  body: string;
+  body: string | null | undefined;
   published_at: string | null;
   sport: string | null;
   author: {
