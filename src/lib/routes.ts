@@ -23,8 +23,15 @@ export const API_ROUTES = {
   articles: "/api/articles",
   articleDetail: (id: string) => `/api/articles/${id}`,
 
+  // Promos
+  promos: "/api/public/promos",
+
+  // Feedback
+  feedback: "/api/feedback",
+
   // User picks
   submitPick: "/api/picks",
+  submitParlay: "/api/picks/parlays",
   myPicks: "/api/picks",
 
   // Users
@@ -44,6 +51,7 @@ export const API_ROUTES = {
   moneylineCalibration: "/api/analytics/moneylines/calibration",
   moneylineBySport: "/api/analytics/moneylines/by-sport",
   modelTrust: "/api/analytics/model-trust",
+  parlayAnalytics: "/api/analytics/parlays",
   propsBySport: "/api/analytics/props/by-sport",
   rolling: (days: number, sport?: string) =>
     `/api/analytics/rolling?days=${days}${sport ? `&sport=${sport}` : ""}`,

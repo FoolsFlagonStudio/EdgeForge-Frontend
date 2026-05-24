@@ -25,10 +25,17 @@ export interface Game {
   user_pick_count: number;
 }
 
+export interface GameArticle {
+  article_id: number;
+  title: string;
+  published_at: string | null;
+}
+
 export interface GameDetail extends Game {
   moneyline: Moneyline | null;
   picks: GamePick[];
   straights: Straight[];
+  articles: GameArticle[];
 }
 
 export interface Moneyline {

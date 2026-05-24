@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PublicLayout from "./components/layout/PublicLayout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import { ParlayCartProvider } from "./context/ParlayCartContext";
 
 import Home from "./pages/Home";
 import Sport from "./pages/Sport";
@@ -29,9 +30,11 @@ import Settings from "./pages/Settings";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Disclaimer from "./pages/Disclaimer";
+import Promos from "./pages/Promos";
 
 export default function App() {
   return (
+    <ParlayCartProvider>
     <BrowserRouter>
       <Routes>
         {/* Public */}
@@ -51,6 +54,7 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/promos" element={<Promos />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
@@ -87,5 +91,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
+    </ParlayCartProvider>
   );
 }

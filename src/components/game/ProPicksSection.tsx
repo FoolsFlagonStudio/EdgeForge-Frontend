@@ -1,22 +1,20 @@
-import { Button, Table, Tag } from "antd";
+import { Button, Table } from "antd";
 import { Link } from "react-router-dom";
 import type { Straight } from "../../types/games";
+import { formatMarketName } from "../../lib/markets";
+import { resultTag, confidenceTag } from "../../lib/pickTags";
+import ParlayCartButton from "./ParlayCartButton";
 
 interface Props {
   straights: Straight[];
   isSubscriber: boolean;
+  gameId?: number;
+  loggedIn?: boolean;
 }
 
-function resultTag(result: string | null) {
-  if (!result) return <Tag>Pending</Tag>;
-  if (result === "win") return <Tag color="green">Win</Tag>;
-  if (result === "loss") return <Tag color="red">Loss</Tag>;
-  return <Tag>Push</Tag>;
-}
-
-const columns = [
+const BASE_COLUMNS = [
   { title: "Player", dataIndex: "player_name" },
-  { title: "Market", dataIndex: "market" },
+  { title: "Market", dataIndex: "market", render: (v: string) => formatMarketName(v) },
   {
     title: "Line",
     key: "line",
@@ -30,6 +28,7 @@ const columns = [
   {
     title: "Confidence",
     dataIndex: "confidence",
+    render: (v: number | null) => confidenceTag(v),
     sorter: (a: Straight, b: Straight) => a.confidence - b.confidence,
   },
   {
@@ -48,7 +47,7 @@ const columns = [
   },
 ];
 
-export default function ProPicksSection({ straights, isSubscriber }: Props) {
+export default function ProPicksSection({ straights, isSubscriber, gameId, loggedIn }: Props) {
   if (!isSubscriber) {
     return (
       <div className="pro-picks-lock">
@@ -82,6 +81,19 @@ export default function ProPicksSection({ straights, isSubscriber }: Props) {
       </div>
     );
   }
+
+  const columns = [
+    ...BASE_COLUMNS,
+    ...(loggedIn && gameId != null
+      ? [{
+          title: "",
+          key: "parlay",
+          render: (_: unknown, row: Straight) => (
+            <ParlayCartButton straight={row} gameId={gameId} />
+          ),
+        }]
+      : []),
+  ];
 
   return (
     <div className="dashboard-table">

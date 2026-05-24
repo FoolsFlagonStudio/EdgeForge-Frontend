@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Input, Select, Typography, message } from "antd";
+import { Button, Input, Select, Switch, Typography, message } from "antd";
 import { apiFetch } from "../lib/api";
 import { API_ROUTES } from "../lib/routes";
 import type { Game } from "../types/games";
@@ -11,6 +11,14 @@ import ArticleWriter from "../components/article/ArticleWriter";
 const { Title } = Typography;
 const { Option } = Select;
 
+function formatGameDate(isoDate: string) {
+  return new Date(isoDate + "T12:00:00").toLocaleDateString();
+}
+
+function todayIso() {
+  return new Date().toISOString().split("T")[0];
+}
+
 export default function ArticleNew() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -19,10 +27,20 @@ export default function ArticleNew() {
   const [sport, setSport] = useState("");
   const [gameIds, setGameIds] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+  const [pastMode, setPastMode] = useState(false);
+  const [pastDate, setPastDate] = useState(todayIso());
 
-  const { data: upcomingGames = [] } = useQuery<Game[]>({
-    queryKey: ["upcoming-games"],
-    queryFn: () => apiFetch(API_ROUTES.upcomingGames),
+  const queryKey = pastMode
+    ? ["games-by-date", pastDate]
+    : ["upcoming-games"];
+
+  const queryUrl = pastMode
+    ? `${API_ROUTES.upcomingGames}?date=${pastDate}`
+    : API_ROUTES.upcomingGames;
+
+  const { data: availableGames = [] } = useQuery<Game[]>({
+    queryKey,
+    queryFn: () => apiFetch(queryUrl),
   });
 
   const save = async (publish: boolean) => {
@@ -46,7 +64,7 @@ export default function ArticleNew() {
       });
       void message.success(publish ? "Article published!" : "Draft saved.");
       navigate(`/articles/${created.id}`);
-    } catch (err) {
+    } catch {
       void message.error("Failed to save article.");
     } finally {
       setSaving(false);
@@ -93,21 +111,35 @@ export default function ArticleNew() {
       </div>
 
       <div style={{ marginBottom: 32 }}>
-        <div style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 6 }}>
-          Associated Games
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+          <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>Associated Games</div>
+          <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>Past game?</span>
+          <Switch
+            size="small"
+            checked={pastMode}
+            onChange={(v) => { setPastMode(v); setGameIds([]); }}
+          />
+          {pastMode && (
+            <input
+              type="date"
+              max={todayIso()}
+              value={pastDate}
+              onChange={(e) => { setPastDate(e.target.value); setGameIds([]); }}
+              style={{ padding: "2px 8px", borderRadius: 6, border: "1px solid #444", background: "var(--card-bg)", color: "var(--text-primary)", fontSize: 13 }}
+            />
+          )}
         </div>
         <Select
           mode="multiple"
           value={gameIds}
           onChange={setGameIds}
           style={{ width: "100%" }}
-          placeholder="Link to upcoming games (optional)"
+          placeholder="Link to games (optional)"
           optionFilterProp="children"
         >
-          {upcomingGames.map((g) => (
-            <Option key={g.id} value={g.id}>
-              {g.away_team.abbreviation} @ {g.home_team.abbreviation} —{" "}
-              {new Date(g.date).toLocaleDateString()}
+          {availableGames.map((g) => (
+            <Option key={g.id} value={String(g.id)}>
+              {g.away_team.abbreviation} @ {g.home_team.abbreviation} — {formatGameDate(g.date)}
             </Option>
           ))}
         </Select>

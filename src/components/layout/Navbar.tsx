@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabase";
 import { apiFetch } from "../../lib/api";
 import { API_ROUTES } from "../../lib/routes";
 import type { MeResponse } from "../../types/users";
+import FeedbackButton from "./FeedbackButton";
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -48,6 +49,14 @@ export default function Navbar() {
     <nav className="navbar">
       <Link to="/" className="navbar-brand">
         EdgeForge
+        <span style={{
+          fontSize: 10, fontWeight: 600, color: "var(--text-secondary)",
+          marginLeft: 6, padding: "1px 5px",
+          border: "1px solid var(--border-subtle)",
+          borderRadius: 4, verticalAlign: "middle", letterSpacing: 0.5,
+        }}>
+          BETA
+        </span>
       </Link>
 
       <div className="navbar-sport-links">
@@ -66,9 +75,13 @@ export default function Navbar() {
         <NavLink to="/leaderboard" className={({ isActive }) => (isActive ? "active" : "")}>
           Leaderboard
         </NavLink>
+        <NavLink to="/promos" className={({ isActive }) => (isActive ? "active" : "")}>
+          Promos
+        </NavLink>
       </div>
 
       <div className="navbar-actions">
+        <FeedbackButton />
         {loggedIn && (
           <NavLink to="/analytics" className={({ isActive }) => (isActive ? "active" : "")}>
             Analytics

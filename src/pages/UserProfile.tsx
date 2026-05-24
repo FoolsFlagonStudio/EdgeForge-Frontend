@@ -83,8 +83,8 @@ export default function UserProfile() {
     },
     {
       title: "Date",
-      dataIndex: "created_at",
-      render: (v: string) => new Date(v).toLocaleDateString(),
+      dataIndex: "game_date",
+      render: (v: string) => v ? new Date(v).toLocaleDateString() : "—",
     },
   ];
 

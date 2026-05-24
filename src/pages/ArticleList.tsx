@@ -22,6 +22,7 @@ interface ArticlesResponse {
 export default function ArticleList() {
   const [sport, setSport] = useState("");
   const [author, setAuthor] = useState("");
+  const [gameId, setGameId] = useState<string>("");
   const [page, setPage] = useState(1);
   const [canWrite, setCanWrite] = useState(false);
 
@@ -38,10 +39,11 @@ export default function ArticleList() {
 
   const params = new URLSearchParams({ page: String(page), per_page: "20" });
   if (sport) params.set("sport", sport);
-  if (author) params.set("author", author);
+  if (author) params.set("author_id", author);
+  if (gameId) params.set("game_id", gameId);
 
   const { data, isLoading } = useQuery<ArticlesResponse>({
-    queryKey: ["articles", sport, author, page],
+    queryKey: ["articles", sport, author, gameId, page],
     queryFn: () => apiFetch(`${API_ROUTES.articles}?${params.toString()}`),
   });
 
@@ -67,6 +69,8 @@ export default function ArticleList() {
         onSportChange={(v) => { setSport(v); setPage(1); }}
         author={author}
         onAuthorChange={(v) => { setAuthor(v); setPage(1); }}
+        gameId={gameId}
+        onGameChange={(v) => { setGameId(v); setPage(1); }}
       />
 
       {isLoading ? (

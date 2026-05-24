@@ -1,8 +1,9 @@
-import { Table, Space, Segmented, Select, Spin, Alert, Typography, Tag } from "antd";
+import { Table, Space, Segmented, Select, Spin, Alert, Typography } from "antd";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "../../lib/api";
 import { API_ROUTES } from "../../lib/routes";
+import { winRateTag } from "../../lib/pickTags";
 
 const { Text } = Typography;
 
@@ -39,12 +40,6 @@ const SPORT_OPTIONS = [
   { label: "MLB", value: "MLB" },
   { label: "NHL", value: "NHL" },
 ];
-
-function winRateTag(rate: number) {
-  const pct = (rate * 100).toFixed(1);
-  const color = rate >= 0.6 ? "green" : rate >= 0.5 ? "blue" : "orange";
-  return <Tag color={color}>{pct}%</Tag>;
-}
 
 const confidenceColumns = [
   { title: "Confidence", dataIndex: "confidence", key: "confidence" },
@@ -119,6 +114,7 @@ export default function RollingPerformanceTable() {
               rowKey="confidence"
               pagination={false}
               size="small"
+              scroll={{ x: "max-content" }}
             />
           )}
 

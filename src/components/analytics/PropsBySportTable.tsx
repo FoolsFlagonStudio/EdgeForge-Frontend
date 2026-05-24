@@ -1,7 +1,8 @@
-import { Table, Tag, Spin, Alert } from "antd";
+import { Table, Spin, Alert } from "antd";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "../../lib/api";
 import { API_ROUTES } from "../../lib/routes";
+import { winRateTag } from "../../lib/pickTags";
 
 type PropsBySportRow = {
   sport: string;
@@ -10,12 +11,6 @@ type PropsBySportRow = {
   losses: number;
   win_rate: number;
 };
-
-function winRateTag(rate: number) {
-  const pct = (rate * 100).toFixed(1);
-  const color = rate >= 0.6 ? "green" : rate >= 0.5 ? "blue" : "orange";
-  return <Tag color={color}>{pct}%</Tag>;
-}
 
 export default function PropsBySportTable() {
   const { data, isLoading, error } = useQuery<PropsBySportRow[]>({
@@ -49,6 +44,7 @@ export default function PropsBySportTable() {
       rowKey="sport"
       pagination={false}
       size="small"
+      scroll={{ x: "max-content" }}
     />
   );
 }

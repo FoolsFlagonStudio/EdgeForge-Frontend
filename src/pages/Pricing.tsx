@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 const { Title, Paragraph } = Typography;
 
 const plans = [
-  { name: "Monthly", price: "$19.99/mo", cycle: "monthly" },
-  { name: "3 Months", price: "$49.99", cycle: "3month" },
-  { name: "6 Months", price: "$89.99", cycle: "6month" },
-  { name: "Annual", price: "$149.99/yr", cycle: "annual" },
+  { name: "Monthly",  price: "$7.99/mo",  cycle: "monthly" },
+  { name: "3 Months", price: "$19.99",    cycle: "3month"  },
+  { name: "6 Months", price: "$34.99",    cycle: "6month"  },
+  { name: "Annual",   price: "$50/yr",    cycle: "annual"  },
 ];
 
 const features = [

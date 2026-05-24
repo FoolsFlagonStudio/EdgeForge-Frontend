@@ -42,7 +42,7 @@ export default function MarketSummaryTable({ markets }: Props) {
         {
           title: "Record",
           width: 100,
-          render: (_, r) => `${r.wins} / ${r.total}`,
+          render: (_, r) => `${r.wins} / ${r.total_graded}`,
         },
         {
           title: "Win Rate",

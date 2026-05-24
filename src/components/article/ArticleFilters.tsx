@@ -1,4 +1,8 @@
-import { Select, Input } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import { Input, Select } from "antd";
+import { apiFetch } from "../../lib/api";
+import { API_ROUTES } from "../../lib/routes";
+import type { Game } from "../../types/games";
 
 const { Option } = Select;
 
@@ -7,9 +11,20 @@ interface Props {
   onSportChange: (v: string) => void;
   author: string;
   onAuthorChange: (v: string) => void;
+  gameId: string;
+  onGameChange: (v: string) => void;
 }
 
-export default function ArticleFilters({ sport, onSportChange, author, onAuthorChange }: Props) {
+function formatGameDate(isoDate: string) {
+  return new Date(isoDate + "T12:00:00").toLocaleDateString();
+}
+
+export default function ArticleFilters({ sport, onSportChange, author, onAuthorChange, gameId, onGameChange }: Props) {
+  const { data: upcomingGames = [] } = useQuery<Game[]>({
+    queryKey: ["upcoming-games"],
+    queryFn: () => apiFetch(API_ROUTES.upcomingGames),
+  });
+
   return (
     <div style={{ display: "flex", gap: 12, marginBottom: 24, flexWrap: "wrap" }}>
       <Select
@@ -30,6 +45,22 @@ export default function ArticleFilters({ sport, onSportChange, author, onAuthorC
         style={{ width: 220 }}
         allowClear
       />
+      <Select
+        value={gameId || undefined}
+        onChange={(v) => onGameChange(v ?? "")}
+        style={{ width: 220 }}
+        placeholder="Filter by game"
+        allowClear
+        onClear={() => onGameChange("")}
+        showSearch
+        optionFilterProp="children"
+      >
+        {upcomingGames.map((g) => (
+          <Option key={g.id} value={String(g.id)}>
+            {g.away_team.abbreviation} @ {g.home_team.abbreviation} — {formatGameDate(g.date)}
+          </Option>
+        ))}
+      </Select>
     </div>
   );
 }

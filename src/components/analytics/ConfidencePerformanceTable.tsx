@@ -1,4 +1,5 @@
-import { Table, Tag } from "antd";
+import { Table } from "antd";
+import { winRateTag } from "../../lib/pickTags";
 
 type Row = {
   confidence: number;
@@ -16,6 +17,7 @@ export default function ConfidencePerformanceTable({ data }: { data: Row[] }) {
       rowKey="confidence"
       dataSource={data}
       pagination={false}
+      scroll={{ x: "max-content" }}
       columns={[
         {
           title: "Confidence",
@@ -25,11 +27,7 @@ export default function ConfidencePerformanceTable({ data }: { data: Row[] }) {
         {
           title: "Win Rate",
           dataIndex: "win_rate",
-          render: (v: string) => (
-            <Tag color={Number(v) >= 0.6 ? "green" : "orange"}>
-              {(Number(v) * 100).toFixed(1)}%
-            </Tag>
-          ),
+          render: (v: string) => winRateTag(Number(v)),
         },
         { title: "Wins", dataIndex: "wins" },
         { title: "Losses", dataIndex: "losses" },

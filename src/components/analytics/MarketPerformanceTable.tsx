@@ -1,5 +1,6 @@
-import { Table, Tag } from "antd";
+import { Table } from "antd";
 import { formatMarketName } from "../../lib/markets";
+import { winRateTag } from "../../lib/pickTags";
 
 type MarketRow = {
   market: string;
@@ -26,11 +27,7 @@ export default function MarketPerformanceTable({
       title: "Win Rate",
       dataIndex: "win_rate",
       key: "win_rate",
-      render: (wr: string) => (
-        <Tag color={Number(wr) >= 0.55 ? "green" : "orange"}>
-          {(Number(wr) * 100).toFixed(1)}%
-        </Tag>
-      ),
+      render: (wr: string) => winRateTag(Number(wr)),
       sorter: (a: MarketRow, b: MarketRow) =>
         Number(a.win_rate) - Number(b.win_rate),
     },
@@ -60,6 +57,7 @@ export default function MarketPerformanceTable({
       dataSource={markets}
       pagination={false}
       size="middle"
+      scroll={{ x: "max-content" }}
     />
   );
 }

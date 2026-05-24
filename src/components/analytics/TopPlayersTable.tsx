@@ -1,4 +1,5 @@
 import { Table, Space, Segmented, Select, Spin, Alert, Tag } from "antd";
+import { winRateTag } from "../../lib/pickTags";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "../../lib/api";
@@ -74,11 +75,7 @@ export default function TopPlayersTable() {
     {
       title: "All-Time Win Rate",
       key: "alltime",
-      render: (_: any, r: TopPlayerRow) => (
-        <Tag color={r.alltime_win_rate >= 0.6 ? "green" : r.alltime_win_rate >= 0.5 ? "blue" : "orange"}>
-          {(r.alltime_win_rate * 100).toFixed(1)}%
-        </Tag>
-      ),
+      render: (_: any, r: TopPlayerRow) => winRateTag(r.alltime_win_rate),
       sorter: (a: TopPlayerRow, b: TopPlayerRow) =>
         a.alltime_win_rate - b.alltime_win_rate,
     },

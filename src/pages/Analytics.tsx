@@ -4,6 +4,7 @@ import HistoricalOverview from "../components/analytics/HistoricalOverview";
 import PropsOverview from "../components/analytics/PropsOverview";
 import MoneylinesOverview from "../components/analytics/MoneylinesOverview";
 import PlayerOverview from "../components/analytics/PlayerOverview";
+import ParlayAnalyticsTable from "../components/analytics/ParlayAnalyticsTable";
 
 const { Title } = Typography;
 
@@ -20,6 +21,7 @@ export default function Analytics() {
           { key: "props", label: "Props", children: <PropsOverview /> },
           { key: "moneyline", label: "Moneylines", children: <MoneylinesOverview /> },
           { key: "players", label: "Players", children: <PlayerOverview /> },
+          { key: "parlays", label: "Parlays", children: <ParlayAnalyticsTable /> },
         ]}
       />
     </div>

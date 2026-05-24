@@ -1,6 +1,6 @@
-import { Table, Tag } from "antd";
-
+import { Table } from "antd";
 import type { MoneylineBySportRow } from "../../types/moneylines";
+import { winRateTag } from "../../lib/pickTags";
 
 export default function MoneylineBySportTable({
   data,
@@ -13,6 +13,7 @@ export default function MoneylineBySportTable({
       rowKey="sport"
       dataSource={data}
       pagination={false}
+      scroll={{ x: "max-content" }}
       columns={[
         {
           title: "Sport",
@@ -23,11 +24,7 @@ export default function MoneylineBySportTable({
           title: "Win Rate",
           dataIndex: "win_rate",
           sorter: (a, b) => a.win_rate - b.win_rate,
-          render: (r) => (
-            <Tag color={r >= 0.55 ? "green" : r >= 0.5 ? "gold" : "red"}>
-              {(r * 100).toFixed(1)}%
-            </Tag>
-          ),
+          render: (r: number) => winRateTag(r),
         },
         {
           title: "Wins",
