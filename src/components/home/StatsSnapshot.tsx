@@ -16,15 +16,7 @@ export default function StatsSnapshot({ snapshot }: Props) {
   const { headline, top_tier } = snapshot;
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: 16,
-        maxWidth: 860,
-        margin: "0 auto",
-      }}
-    >
+    <div className="stats-grid">
       <div className="stat-card">
         <div className="stat-card-label">Total Graded</div>
         <div className="stat-card-value">{fmt(headline.total_graded)}</div>
