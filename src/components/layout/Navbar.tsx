@@ -88,14 +88,21 @@ export default function Navbar() {
           <span className="navbar-feedback-desktop">
             <FeedbackButton />
           </span>
-          <button
-            className="navbar-hamburger"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <CloseOutlined /> : <MenuOutlined />}
-          </button>
-          {loggedIn ? (
+          <span className="navbar-auth-desktop">
+            {!loggedIn && (
+              <>
+                <Link to="/register">
+                  <Button type="text" style={{ color: "var(--text-secondary)" }}>
+                    Register
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button type="primary">Login</Button>
+                </Link>
+              </>
+            )}
+          </span>
+          {loggedIn && (
             <Dropdown
               menu={{ items: dropdownItems }}
               trigger={["click"]}
@@ -112,18 +119,14 @@ export default function Navbar() {
                 }}
               />
             </Dropdown>
-          ) : (
-            <>
-              <Link to="/register">
-                <Button type="text" style={{ color: "var(--text-secondary)" }}>
-                  Register
-                </Button>
-              </Link>
-              <Link to="/login">
-                <Button type="primary">Login</Button>
-              </Link>
-            </>
           )}
+          <button
+            className="navbar-hamburger"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <CloseOutlined /> : <MenuOutlined />}
+          </button>
         </div>
       </nav>
 
@@ -139,7 +142,19 @@ export default function Navbar() {
               {label}
             </NavLink>
           ))}
-          <div style={{ paddingTop: 8 }}>
+          {!loggedIn && (
+            <div style={{ display: "flex", gap: 10, paddingTop: 16 }}>
+              <Link to="/register" style={{ flex: 1 }} onClick={() => setMenuOpen(false)}>
+                <Button type="default" block style={{ color: "var(--text-secondary)" }}>
+                  Register
+                </Button>
+              </Link>
+              <Link to="/login" style={{ flex: 1 }} onClick={() => setMenuOpen(false)}>
+                <Button type="primary" block>Login</Button>
+              </Link>
+            </div>
+          )}
+          <div style={{ paddingTop: 12 }}>
             <FeedbackButton />
           </div>
         </div>
