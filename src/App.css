@@ -302,6 +302,20 @@ body {
   margin-top: 4px;
 }
 
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ===== Game Card ===== */
 .game-card {
   background: var(--bg-card);
