@@ -7,9 +7,10 @@ interface Props {
 
 export default function SportGameCard({ game }: Props) {
   const navigate = useNavigate();
-  const gameDate = new Date(game.date).toLocaleTimeString(undefined, {
-    hour: "numeric",
-    minute: "2-digit",
+  const gameDate = new Date(game.date + "T12:00:00").toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
   });
 
   return (
