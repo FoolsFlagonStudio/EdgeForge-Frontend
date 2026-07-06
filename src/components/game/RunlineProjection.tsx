@@ -1,15 +1,16 @@
 import { Card, Tag } from "antd";
-import type { Moneyline } from "../../types/games";
+import type { RunLine } from "../../types/games";
 
 interface Props {
-  moneyline: Moneyline;
+  runline: RunLine;
 }
 
 function pct(n: number) {
   return `${(n * 100).toFixed(1)}%`;
 }
 
-function fmtOdds(n: number) {
+function fmtOdds(n: number | null) {
+  if (n == null) return "—";
   return n > 0 ? `+${n}` : `${n}`;
 }
 
@@ -22,37 +23,17 @@ const BUCKET_COLOR: Record<string, string> = {
   coin_flip: "default",
 };
 
-// Recommended units per bucket based on backtested win rates.
-// coin_flip/thin/solid are informational only — below reliable threshold.
-const BUCKET_UNITS: Record<string, string> = {
-  ultra:     "2u",
-  elite:     "1u",
-  strong:    "0.5u",
-  solid:     "Skip",
-  thin:      "Skip",
-  coin_flip: "Skip",
-};
-
-const UNIT_COLOR: Record<string, string> = {
-  "2u":   "var(--success)",
-  "1u":   "var(--success)",
-  "0.5u": "#faad14",
-  "Skip": "var(--danger)",
-};
-
-export default function MoneylineProjection({ moneyline }: Props) {
-  const edgeColor = moneyline.edge > 0 ? "var(--success)" : "var(--danger)";
-  const bucket = moneyline.edge_bucket ?? "";
-  const units = BUCKET_UNITS[bucket] ?? "—";
+export default function RunlineProjection({ runline }: Props) {
+  const edgeColor = runline.edge > 0 ? "var(--success)" : "var(--danger)";
 
   return (
     <Card
       title={
         <span>
-          Moneyline Projection
-          {bucket && (
-            <Tag color={BUCKET_COLOR[bucket] ?? "default"} style={{ marginLeft: 10, textTransform: "capitalize" }}>
-              {bucket.replace("_", " ")}
+          Run Line
+          {runline.edge_bucket && (
+            <Tag color={BUCKET_COLOR[runline.edge_bucket] ?? "default"} style={{ marginLeft: 10, textTransform: "capitalize" }}>
+              {runline.edge_bucket.replace("_", " ")}
             </Tag>
           )}
         </span>
@@ -68,38 +49,35 @@ export default function MoneylineProjection({ moneyline }: Props) {
       >
         <div className="stat-card">
           <div className="stat-card-label">Pick</div>
-          <div className="stat-card-value" style={{ fontSize: 22 }}>
-            {moneyline.pick}
+          <div className="stat-card-value" style={{ fontSize: 18 }}>
+            {runline.pick_team}
+          </div>
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
+            {runline.pick_side}
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-card-label">Model Probability</div>
           <div className="stat-card-value" style={{ fontSize: 22 }}>
-            {pct(moneyline.model_prob)}
+            {pct(runline.model_prob)}
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-card-label">Implied Probability</div>
           <div className="stat-card-value" style={{ fontSize: 22 }}>
-            {pct(moneyline.implied_prob)}
+            {pct(runline.implied_prob)}
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-card-label">Edge</div>
           <div className="stat-card-value" style={{ fontSize: 22, color: edgeColor }}>
-            {pct(moneyline.edge)}
+            {pct(runline.edge)}
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-card-label">Odds</div>
           <div className="stat-card-value" style={{ fontSize: 22 }}>
-            {moneyline.pick_odds != null ? fmtOdds(moneyline.pick_odds) : "—"}
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">Units</div>
-          <div className="stat-card-value" style={{ fontSize: 22, color: UNIT_COLOR[units] ?? "inherit" }}>
-            {units}
+            {fmtOdds(runline.pick_odds)}
           </div>
         </div>
       </div>

@@ -50,6 +50,8 @@ export const API_ROUTES = {
   moneylineEdgeBuckets: "/api/analytics/moneylines/edge-buckets",
   moneylineCalibration: "/api/analytics/moneylines/calibration",
   moneylineBySport: "/api/analytics/moneylines/by-sport",
+  runlineEdgeBuckets: "/api/analytics/runlines/edge-buckets",
+  totalsEdgeBuckets: "/api/analytics/totals/edge-buckets",
   modelTrust: "/api/analytics/model-trust",
   parlayAnalytics: "/api/analytics/parlays",
   propsBySport: "/api/analytics/props/by-sport",

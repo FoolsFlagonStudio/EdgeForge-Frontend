@@ -13,10 +13,11 @@ const SPORT_IDS: Record<string, string> = {
   nba: "nba",
   nhl: "nhl",
   mlb: "mlb",
+  wnba: "wnba",
 };
 
 interface Props {
-  sport: "nba" | "nhl" | "mlb";
+  sport: "nba" | "nhl" | "mlb" | "wnba";
 }
 
 export default function Sport({ sport }: Props) {
