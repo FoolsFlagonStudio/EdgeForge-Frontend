@@ -55,6 +55,7 @@ export default function Navbar() {
     { to: "/nba", label: "NBA" },
     { to: "/nhl", label: "NHL" },
     { to: "/mlb", label: "MLB" },
+    { to: "/wnba", label: "WNBA" },
     { to: "/articles", label: "Articles" },
     { to: "/leaderboard", label: "Leaderboard" },
     { to: "/promos", label: "Promos" },

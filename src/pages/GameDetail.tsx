@@ -9,6 +9,8 @@ import { ALL_MARKETS, formatMarketName } from "../lib/markets";
 import type { GameDetail as GameDetailType } from "../types/games";
 import type { MeResponse } from "../types/users";
 import MoneylineProjection from "../components/game/MoneylineProjection";
+import RunlineProjection from "../components/game/RunlineProjection";
+import TotalProjection from "../components/game/TotalProjection";
 import FreePicks from "../components/game/FreePicks";
 import UserSubmittedPicks from "../components/game/UserSubmittedPicks";
 import ProPicksSection from "../components/game/ProPicksSection";
@@ -160,6 +162,8 @@ export default function GameDetail() {
       </div>
 
       {game.moneyline && <MoneylineProjection moneyline={game.moneyline} />}
+      {game.runline && <RunlineProjection runline={game.runline} />}
+      {game.total && <TotalProjection total={game.total} />}
 
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>

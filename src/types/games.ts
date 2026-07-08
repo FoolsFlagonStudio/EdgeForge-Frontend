@@ -33,6 +33,8 @@ export interface GameArticle {
 
 export interface GameDetail extends Game {
   moneyline: Moneyline | null;
+  runline: RunLine | null;
+  total: Total | null;
   picks: GamePick[];
   straights: Straight[];
   articles: GameArticle[];
@@ -46,6 +48,30 @@ export interface Moneyline {
   model_prob: number;
   edge: number;
   pick_odds: number;
+  edge_bucket: string | null;
+  result: "win" | "loss" | "push" | null;
+}
+
+export interface RunLine {
+  id: string;
+  pick_team: string;
+  pick_side: string;
+  pick_odds: number | null;
+  model_prob: number;
+  implied_prob: number;
+  edge: number;
+  edge_bucket: string | null;
+  result: "win" | "loss" | "push" | null;
+}
+
+export interface Total {
+  id: string;
+  pick_direction: "over" | "under";
+  total_line: number;
+  pick_odds: number | null;
+  model_total: number;
+  edge: number;
+  edge_bucket: string | null;
   result: "win" | "loss" | "push" | null;
 }
 

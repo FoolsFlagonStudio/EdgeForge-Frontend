@@ -43,6 +43,7 @@ export default function App() {
           <Route path="/nba" element={<Sport sport="nba" />} />
           <Route path="/nhl" element={<Sport sport="nhl" />} />
           <Route path="/mlb" element={<Sport sport="mlb" />} />
+          <Route path="/wnba" element={<Sport sport="wnba" />} />
           <Route path="/games/:id" element={<GameDetail />} />
           <Route path="/players/:id" element={<PlayerDetail />} />
           <Route path="/articles" element={<ArticleList />} />
