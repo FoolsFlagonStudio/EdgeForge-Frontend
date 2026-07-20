@@ -55,6 +55,7 @@ export const API_ROUTES = {
   modelTrust: "/api/analytics/model-trust",
   parlayAnalytics: "/api/analytics/parlays",
   propsBySport: "/api/analytics/props/by-sport",
+  backtestSummary: "/api/analytics/backtests",
   rolling: (days: number, sport?: string) =>
     `/api/analytics/rolling?days=${days}${sport ? `&sport=${sport}` : ""}`,
   roi: (sport?: string) =>
