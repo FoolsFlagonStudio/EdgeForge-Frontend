@@ -1,24 +1,5 @@
-:root {
-  --bg-primary: #0f1115;
-  --bg-section: #111827;
-  --bg-card: #161b22;
-  --bg-nav: #131820;
-  --bg-elevated: #1c2230;
-  --border-subtle: #262c36;
-
-  --brand-primary: #c05600;
-  --brand-primary-hover: #a44700;
-
-  --success: #22c55e;
-  --success-soft: #14532d;
-
-  --danger: #ef4444;
-  --danger-soft: #7f1d1d;
-
-  --muted-text: #94a3b8;
-  --text-primary: #e6e8eb;
-  --text-secondary: #a1a8b3;
-}
+/* Color tokens now live in src/styles/theme.css (imported before this file
+   in main.tsx) — kept as the single source of truth for brand/tier colors. */
 
 /* Root Container */
 #root {

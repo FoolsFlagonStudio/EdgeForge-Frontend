@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Input, Table, Spin } from "antd";
+import { Input, Table, Spin, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "../../lib/api";
@@ -51,9 +51,13 @@ export default function PlayersSection({ sport }: Props) {
   ];
 
   if (isLoading) return <Spin />;
+  if (players.length === 0) return null;
 
   return (
     <div>
+      <Typography.Title level={3} style={{ marginBottom: 20 }}>
+        Players
+      </Typography.Title>
       <Input
         placeholder="Search players..."
         value={search}

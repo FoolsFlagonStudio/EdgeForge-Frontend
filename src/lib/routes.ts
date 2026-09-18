@@ -45,6 +45,24 @@ export const API_ROUTES = {
   billingPortal: "/api/billing/portal",
   startTrial: "/api/billing/trial/start",
 
+  // Results
+  resultsByDay: (start?: string, end?: string, sport?: string) => {
+    const params = new URLSearchParams();
+    if (start) params.set("start", start);
+    if (end) params.set("end", end);
+    if (sport) params.set("sport", sport);
+    const qs = params.toString();
+    return `/api/public/historical/results-by-day${qs ? `?${qs}` : ""}`;
+  },
+  suggestedCombos: (start?: string, end?: string, sport?: string) => {
+    const params = new URLSearchParams();
+    if (start) params.set("start", start);
+    if (end) params.set("end", end);
+    if (sport) params.set("sport", sport);
+    const qs = params.toString();
+    return `/api/public/historical/suggested-combos${qs ? `?${qs}` : ""}`;
+  },
+
   // Analytics — v1 key names (used by copied analytics components)
   historicalAnalytics: "/api/public/historical/analytics",
   moneylineEdgeBuckets: "/api/analytics/moneylines/edge-buckets",

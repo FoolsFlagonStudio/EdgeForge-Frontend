@@ -3,35 +3,29 @@ import { Link } from "react-router-dom";
 
 const { Title, Paragraph } = Typography;
 
-interface Props {
-  loggedIn: boolean;
-}
+// TODO: real Discord invite link — placeholder until one exists.
+const DISCORD_INVITE_URL = "#";
 
-export default function CTABanner({ loggedIn }: Props) {
+export default function CTABanner() {
   return (
     <div className="cta-banner">
       <Title level={1} className="cta-banner-title" style={{ margin: 0 }}>
-        {loggedIn ? "Your Edge Starts Here" : "Bet Smarter with Data-Driven Picks"}
+        Bet Smarter with Data-Driven Picks
       </Title>
       <Paragraph className="cta-banner-subtitle">
-        {loggedIn
-          ? "View today's picks, track performance, and stay ahead of the market."
-          : "Access confidence-graded props, moneylines, and community picks across NBA, NHL, and MLB."}
+        Condition-mined, backtest-validated picks across NBA, WNBA, MLB, NFL, and NHL —
+        every pick's tier reflects its own historical track record, not a guess.
       </Paragraph>
-      {!loggedIn && (
-        <Link to="/register">
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        <Link to="/results">
           <Button type="primary" size="large">
-            Get Started Free
+            See Today's Record
           </Button>
         </Link>
-      )}
-      {loggedIn && (
-        <Link to="/dashboard">
-          <Button type="primary" size="large">
-            View Today's Picks
-          </Button>
-        </Link>
-      )}
+        <a href={DISCORD_INVITE_URL} target="_blank" rel="noreferrer">
+          <Button size="large">Join the Discord</Button>
+        </a>
+      </div>
     </div>
   );
 }

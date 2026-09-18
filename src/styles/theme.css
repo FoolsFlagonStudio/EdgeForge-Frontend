@@ -1,0 +1,40 @@
+/*
+  EdgeForge global theme — single source of truth for color tokens.
+
+  Brand is burnt-orange (--brand-primary), restored as canonical after the
+  coming-soon splash's blue "--forge" was mistakenly treated as the brand
+  color. The tier scale (ultra/elite/strong/solid/thin/coin_flip) mirrors
+  the backend's edge_bucket vocabulary (see nba-sgp-engine's
+  generate_results_card.py _BUCKET_ORDER) so a pick's tier reads the same
+  word here as it does in the Discord cards it also appears on.
+*/
+:root {
+  --bg-primary: #0f1115;
+  --bg-section: #111827;
+  --bg-card: #161b22;
+  --bg-nav: #131820;
+  --bg-elevated: #1c2230;
+  --border-subtle: #262c36;
+
+  --brand-primary: #c05600;
+  --brand-primary-hover: #a44700;
+  --brand-primary-soft: #3a2210;
+
+  --success: #22c55e;
+  --success-soft: #14532d;
+
+  --danger: #ef4444;
+  --danger-soft: #7f1d1d;
+
+  --muted-text: #94a3b8;
+  --text-primary: #e6e8eb;
+  --text-secondary: #a1a8b3;
+
+  /* Tier scale — burnt-orange family, darkest/most-saturated at the top */
+  --tier-ultra:     #ff8a3d;
+  --tier-elite:     #e07a2c;
+  --tier-strong:    #c05600;
+  --tier-solid:     #965226;
+  --tier-thin:      #7a5b45;
+  --tier-coin-flip: #5c5f66;
+}

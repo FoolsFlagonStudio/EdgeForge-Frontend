@@ -14,10 +14,11 @@ const SPORT_IDS: Record<string, string> = {
   nhl: "nhl",
   mlb: "mlb",
   wnba: "wnba",
+  nfl: "nfl",
 };
 
 interface Props {
-  sport: "nba" | "nhl" | "mlb" | "wnba";
+  sport: "nba" | "nhl" | "mlb" | "wnba" | "nfl";
 }
 
 export default function Sport({ sport }: Props) {
@@ -47,12 +48,7 @@ export default function Sport({ sport }: Props) {
         <SportStats analytics={analytics} loading={analyticsLoading} />
       </div>
 
-      <div>
-        <Title level={3} style={{ marginBottom: 20 }}>
-          Players
-        </Title>
-        <PlayersSection sport={sport} />
-      </div>
+      <PlayersSection sport={sport} />
     </div>
   );
 }

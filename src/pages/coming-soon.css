@@ -1,5 +1,8 @@
 /* ── Design tokens ──────────────────────────────────────────── */
-:root {
+/* Scoped to .cs-root only — this page is dormant/fallback now that
+   src/styles/theme.css owns the real brand tokens, so these must not
+   leak into a bare :root and collide with it. */
+.cs-root {
   --bg:        #0D1117;
   --surface:   #161B22;
   --surface2:  #1C2130;
@@ -18,7 +21,7 @@
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
+  .cs-root {
     --bg:       #F3F5F8;
     --surface:  #FFFFFF;
     --surface2: #F0F2F5;
