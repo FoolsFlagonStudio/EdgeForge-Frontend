@@ -47,6 +47,10 @@ export const API_ROUTES = {
 
   // Analytics — v1 key names (used by copied analytics components)
   historicalAnalytics: "/api/public/historical/analytics",
+  // Live track record of the current price-gap picks (published since 2026-10-18)
+  recordSummary: "/api/public/record/summary?system=price_gap",
+  recordPicks: (limit = 100, offset = 0) =>
+    `/api/public/record/picks?system=price_gap&limit=${limit}&offset=${offset}`,
   moneylineEdgeBuckets: "/api/analytics/moneylines/edge-buckets",
   moneylineCalibration: "/api/analytics/moneylines/calibration",
   moneylineBySport: "/api/analytics/moneylines/by-sport",
